@@ -74,9 +74,7 @@ export function useContacts(service: DataverseService): UseContactsReturn {
         }
     }, [contacts, service]);
 
-    // BUG #4 (MEDIUM): Off-by-one — uses `currentPage * PAGE_SIZE` as the start index.
-    // When currentPage=1 (first page), startIdx=10, so the first 10 contacts are skipped.
-    const startIdx = currentPage * PAGE_SIZE; // BUG: should be (currentPage - 1) * PAGE_SIZE
+    const startIdx = (currentPage - 1) * PAGE_SIZE;
     const paginatedContacts = filteredContacts.slice(startIdx, startIdx + PAGE_SIZE);
 
     const createContact = useCallback(async (contact: Omit<Contact, 'contactid'>) => {
