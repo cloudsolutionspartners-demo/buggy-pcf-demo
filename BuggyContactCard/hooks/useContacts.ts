@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Contact } from '../types/Contact';
 import { DataverseService } from '../services/DataverseService';
 
@@ -28,6 +28,7 @@ export function useContacts(service: DataverseService): UseContactsReturn {
     const [currentPage, setCurrentPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const searchCounterRef = useRef(0);
 
     const loadContacts = useCallback(async () => {
         setLoading(true);
@@ -49,23 +50,27 @@ export function useContacts(service: DataverseService): UseContactsReturn {
         return () => clearInterval(interval);
     }, [loadContacts]);
 
-    // BUG #8 (COMPLEX): Race condition — no in-flight request cancellation.
-    // If search('a') fires then search('ab') fires, and 'a' resolves last,
-    // the stale results from 'a' overwrite the correct results from 'ab'.
     const search = useCallback(async (query: string) => {
         setSearchQuery(query);
+        const requestId = ++searchCounterRef.current;
         if (!query.trim()) {
             setFilteredContacts(contacts);
             return;
         }
         setLoading(true);
         try {
-            const results = await service.searchContacts(query); // BUG: no AbortController
-            setFilteredContacts(results);
+            const results = await service.searchContacts(query);
+            if (requestId === searchCounterRef.current) {
+                setFilteredContacts(results);
+            }
         } catch {
-            setError('Search failed');
+            if (requestId === searchCounterRef.current) {
+                setError('Search failed');
+            }
         } finally {
-            setLoading(false);
+            if (requestId === searchCounterRef.current) {
+                setLoading(false);
+            }
         }
     }, [contacts, service]);
 
