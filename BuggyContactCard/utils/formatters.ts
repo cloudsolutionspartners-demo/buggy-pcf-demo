@@ -1,7 +1,5 @@
-// BUG #2 (SIMPLE): Wrong variable reference — `phoneNum` is not defined, should be `phone`
 export function formatPhoneNumber(phone: string): string {
-    // @ts-ignore
-    const cleaned = phoneNum.replace(/\D/g, ''); // BUG: phoneNum is undefined
+    const cleaned = phone.replace(/\D/g, '');
     if (cleaned.length === 10) {
         return `(${cleaned.slice(0, 3)}) ${cleaned.slice(3, 6)}-${cleaned.slice(6)}`;
     }
