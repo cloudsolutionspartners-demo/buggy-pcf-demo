@@ -30,18 +30,16 @@ export const ContactForm: React.FC<ContactFormProps> = ({
         ...initialValues,
     });
 
-    // BUG #9 (COMPLEX): Stale closure — formData captured at mount time (initial values).
-    // When user edits fields and presses Ctrl+Enter, onSubmit receives the stale initial
-    // formData instead of the current field values.
+    // FIX #9: Added formData and onSubmit to dependency array to avoid stale closure.
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === 'Enter') {
-                onSubmit(formData); // BUG: formData is stale (initial snapshot)
+                onSubmit(formData);
             }
         };
         document.addEventListener('keydown', handleKeyDown);
         return () => document.removeEventListener('keydown', handleKeyDown);
-    }, []); // BUG: missing [formData, onSubmit] in deps
+    }, [formData, onSubmit]);
 
     const handleChange = (field: keyof ContactFormData) => (
         e: React.ChangeEvent<HTMLInputElement>
