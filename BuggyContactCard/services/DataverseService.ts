@@ -47,14 +47,13 @@ export class DataverseService {
         return { ...contact, contactid: (result as unknown as { id: string }).id };
     }
 
-    // BUG #6 (MEDIUM): Wrong operation — createRecord used instead of updateRecord
     async updateContact(contactid: string, updates: ContactUpdate): Promise<void> {
         const record: ComponentFramework.WebApi.Entity = {};
         if (updates.fullname !== undefined) record['fullname'] = updates.fullname;
         if (updates.email !== undefined) record['emailaddress1'] = updates.email;
         if (updates.phone !== undefined) record['telephone1'] = updates.phone;
         if (updates.jobtitle !== undefined) record['jobtitle'] = updates.jobtitle;
-        await this.context.webAPI.createRecord('contact', record); // BUG: should be updateRecord
+        await this.context.webAPI.updateRecord('contact', contactid, record);
     }
 
     async deleteContact(contactid: string): Promise<void> {
