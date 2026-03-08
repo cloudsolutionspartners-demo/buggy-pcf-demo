@@ -43,7 +43,7 @@ export class DataverseService {
             telephone1: contact.phone,
             jobtitle: contact.jobtitle,
         };
-        const result = this.context.webAPI.createRecord('contact', record); // BUG: missing await
+        const result = await this.context.webAPI.createRecord('contact', record);
         return { ...contact, contactid: (result as unknown as { id: string }).id };
     }
 
