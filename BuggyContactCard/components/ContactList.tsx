@@ -26,11 +26,9 @@ export const ContactList: React.FC<ContactListProps> = ({
         });
     }
 
-    // BUG #5 (MEDIUM): Inverted boolean — `!includes` shows contacts that do NOT match
-    // the query instead of contacts that DO match.
     const visibleContacts = searchQuery
         ? displayContacts.filter(
-              c => !c.fullname.toLowerCase().includes(searchQuery.toLowerCase()) // BUG: should not have !
+              c => c.fullname.toLowerCase().includes(searchQuery.toLowerCase())
           )
         : displayContacts;
 
