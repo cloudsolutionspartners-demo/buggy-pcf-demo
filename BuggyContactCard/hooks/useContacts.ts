@@ -46,7 +46,7 @@ export function useContacts(service: DataverseService): UseContactsReturn {
     useEffect(() => {
         loadContacts();
         const interval = setInterval(loadContacts, REFRESH_INTERVAL);
-        // BUG: missing `return () => clearInterval(interval);`
+        return () => clearInterval(interval);
     }, [loadContacts]);
 
     // BUG #8 (COMPLEX): Race condition — no in-flight request cancellation.

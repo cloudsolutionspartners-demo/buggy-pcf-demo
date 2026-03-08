@@ -7,6 +7,7 @@ module.exports = {
         '^.+\\.tsx?$': [
             'ts-jest',
             {
+                diagnostics: false,
                 tsconfig: {
                     jsx: 'react-jsx',
                     module: 'commonjs',

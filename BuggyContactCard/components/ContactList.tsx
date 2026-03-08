@@ -17,11 +17,9 @@ export const ContactList: React.FC<ContactListProps> = ({
     onEdit,
     onDelete,
 }) => {
-    // BUG #11 (COMPLEX): Array mutation — `.sort()` mutates the original array in place.
-    // Callers' array reference is silently modified, causing subtle state corruption.
     let displayContacts = contacts;
     if (sortKey) {
-        displayContacts = contacts.sort((a, b) => { // BUG: should be [...contacts].sort(...)
+        displayContacts = [...contacts].sort((a, b) => {
             const av = String(a[sortKey] ?? '');
             const bv = String(b[sortKey] ?? '');
             return av.localeCompare(bv);
