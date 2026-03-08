@@ -11,8 +11,7 @@ export const ContactCard: React.FC<ContactCardProps> = ({ contact, onEdit, onDel
     return (
         <div className="contact-card" data-testid="contact-card">
             <h3>{contact.fullname}</h3>
-            {/* BUG #1 (SIMPLE): Typo — `contact.emal` instead of `contact.email` */}
-            <p data-testid="contact-email">{(contact as unknown as { emal: string }).emal}</p>
+            <p data-testid="contact-email">{contact.email}</p>
             <p data-testid="contact-phone">{contact.phone}</p>
             <p data-testid="contact-jobtitle">{contact.jobtitle}</p>
             <p data-testid="contact-company">{contact.company}</p>
