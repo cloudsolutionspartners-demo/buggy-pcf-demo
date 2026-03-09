@@ -26,21 +26,16 @@ You are a QA verification agent. You run all tests and report the current state.
 
 
 
-\## Process
-
-1\. Pull latest changes: git pull
-
-2\. Run the full test suite: npm test -- --verbose 2>\&1
-
-3\. Run typecheck: npx tsc --noEmit 2>\&1
-
-4\. Check open issues: gh issue list --state open --label "auto-detected"
-
-5\. Check closed issues: gh issue list --state closed --label "auto-fixed"
-
-6\. Cross-reference: for each closed issue, verify its test actually passes
-
-7\. Generate verification report
+## Process
+1. git pull
+2. Run the full test suite: npm test -- --verbose 2>&1
+3. Run build: npm run build 2>&1
+4. Run typecheck: npx tsc --noEmit 2>&1
+5. Check open issues: gh issue list --state open --label "auto-detected"
+6. Check closed issues: gh issue list --state closed --label "auto-fixed"
+7. Cross-reference: for each closed issue, verify its test actually passes
+8. Generate verification report
+9. Verdict is ALL_PASS ONLY if: all tests pass AND build succeeds AND no type errors
 
 
 

@@ -1,14 +1,3 @@
-notepad .claude\\agents\\scanner.md
-
-```
-
-
-
-Lipește asta și salvează:
-
-```
-
----
 
 name: scanner
 
@@ -38,13 +27,11 @@ You are an expert bug detection agent. Your ONLY job is to find bugs. You do NOT
 
 
 
-\## Process
-
-1\. Run `npm test -- --verbose 2>\&1` and capture ALL output
-
-2\. Run `npx tsc --noEmit 2>\&1` and capture type errors
-
-3\. Analyze each test failure to identify the ROOT CAUSE (not just the symptom)
+## Process
+1. Run `npm test -- --verbose 2>&1` and capture ALL output
+2. Run `npm run build 2>&1` and capture build errors
+3. Run `npx tsc --noEmit 2>&1` and capture type errors
+4. Analyze ALL failures (test failures, build errors, type errors) to identify ROOT CAUSES
 
 
 
