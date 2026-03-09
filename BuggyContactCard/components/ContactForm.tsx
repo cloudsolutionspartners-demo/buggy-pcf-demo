@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Contact } from '../types/Contact';
-// BUG #3 (SIMPLE): Wrong import name — imports `formatDate` instead of `formatPhoneNumber`.
-// Phone numbers are formatted with a date formatter, producing "Invalid Date" output.
 import { formatPhoneNumber } from '../utils/formatters';
 
 type ContactFormData = Omit<Contact, 'contactid'>;
@@ -48,7 +46,6 @@ export const ContactForm: React.FC<ContactFormProps> = ({
     };
 
     const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // Uses the wrong formatter (formatDate) due to bug #3
         const formatted = formatPhoneNumber(e.target.value);
         setFormData(prev => ({ ...prev, phone: formatted }));
     };
